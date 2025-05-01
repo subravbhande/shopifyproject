@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banana Bliss T-Shirt - Premium Product Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2a2a2a;
+            --accent-color: #f5a623;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--primary-color);
+            overflow-x: hidden;
+        }
+
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-gallery {
+            flex: 1 1 45%;
+            min-width: 300px;
+        }
+
+        .product-image {
+            width: 100%;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .product-details {
+            flex: 1 1 45%;
+            min-width: 300px;
+            padding: 1rem;
+        }
+
+        .product-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .size-selector {
+            margin: 1.5rem 0;
+        }
+
+        .size-btn {
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            border: 2px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .size-btn:hover,
+        .size-btn.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .quantity-selector {
+            display: inline-flex;
+            align-items: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .quantity-btn {
+            padding: 0.8rem 1.2rem;
+            font-size: 1.2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quantity-btn:hover {
+            background: #f8f8f8;
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            -moz-appearance: textfield;
+        }
+
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f8f8f8;
+            color: var(--primary-color);
+            border: 2px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            position: relative;
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+
+        .related-products {
+            padding: 3rem 2rem;
+            background: #fafafa;
+            margin-top: 3rem;
+        }
+
+        .scrollable-products {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scroll-behavior: smooth;
+        }
+
+        .product-card {
+            flex: 0 0 250px;
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .product-rating {
+            color: #ffb300;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-container {
+                padding: 1rem;
+            }
+            
+            .product-title {
+                font-size: 1.5rem;
+            }
+            
+            .product-price {
+                font-size: 1.2rem;
+            }
+            
+            .size-btn {
+                padding: 0.6rem 1rem;
+            }
+            
+            .btn {
+                min-width: 100%;
+            }
+            
+            .product-card {
+                flex: 0 0 200px;
+            }
+            
+            .product-card img {
+                height: 180px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            animation: toastSlide 0.3s ease-out;
+        }
+
+        @keyframes toastSlide {
+            from { bottom: -50px; opacity: 0; }
+            to { bottom: 20px; opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="product-container">
+        <div class="product-gallery">
+            <img src="https://www.dixita.in/cdn/shop/files/Front_-_2024-12-28T161404.166.jpg?v=1735382831&width=1946" 
+                 alt="Banana Bliss T-Shirt" 
+                 class="product-image"
+                 loading="lazy">
+        </div>
+
+        <div class="product-details">
+            <h1 class="product-title">BANANA BLISS OVERSIZED T-SHIRT</h1>
+            <p class="product-price">Rs. 1,178.82</p>
+            
+            <div class="size-selector">
+                <button class="size-btn">S</button>
+                <button class="size-btn">M</button>
+                <button class="size-btn">L</button>
+                <button class="size-btn">XL</button>
+                <button class="size-btn">XXL</button>
+            </div>
+
+            <div class="quantity-selector">
+                <button class="quantity-btn" onclick="adjustQuantity(-1)">−</button>
+                <input type="number" class="quantity-input" value="1" min="1">
+                <button class="quantity-btn" onclick="adjustQuantity(1)">+</button>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="addToCart()">Add to Cart</button>
+                <button class="btn btn-secondary" onclick="buyNow()">Buy it Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="sizeChartModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('sizeChartModal')">&times;</span>
+            <h2>Size Chart</h2>
+            <img src="https://qikink.com/wp-content/uploads/2023/08/Mens-Polo-size-chart-qikink-1024x538.webp" 
+                 alt="Size Chart" 
+                 style="width: 100%; border-radius: 1rem;">
+        </div>
+    </div>
+
+    <div class="related-products">
+        <h2>You Might Also Like</h2>
+        <div class="scrollable-products">
+            <div class="product-card" onclick="openProductModal('Cool Cotton Tee', 'Rs. 899', 'https://lovedky.com/cdn/shop/files/popsicles-aop-6745babaaabf8.webp?v=1732623098&width=1080')">
+                <img src="https://lovedky.com/cdn/shop/files/popsicles-aop-6745babaaabf8.webp?v=1732623098&width=1080" alt="Cool Cotton Tee">
+                <h4>Cool Cotton Tee</h4>
+                <p>Rs. 899</p>
+                <div class="product-rating">★★★★☆</div>
+            </div>
+
+            <!-- Additional product cards -->
+            <div class="product-card" onclick="openProductModal('Vintage Wash Tee', 'Rs. 949', 'https://m.media-amazon.com/images/I/61g+6WgVtmL._AC_UL1500_.jpg')">
+                <img src="https://m.media-amazon.com/images/I/61g+6WgVtmL._AC_UL1500_.jpg" alt="Vintage Wash Tee">
+                <h4>Vintage Wash Tee</h4>
+                <p>Rs. 949</p>
+                <div class="product-rating">★★★★★</div>
+            </div>
+
+            <div class="product-card" onclick="openProductModal('Striped Summer Tee', 'Rs. 799', 'https://m.media-amazon.com/images/I/81k0QjXYLAL._AC_UL1500_.jpg')">
+                <img src="https://m.media-amazon.com/images/I/81k0QjXYLAL._AC_UL1500_.jpg" alt="Striped Summer Tee">
+                <h4>Striped Summer Tee</h4>
+                <p>Rs. 799</p>
+                <div class="product-rating">★★★☆☆</div>
+            </div>
+
+            <div class="product-card" onclick="openProductModal('Graphic Print Tee', 'Rs. 849', 'https://m.media-amazon.com/images/I/71sY7VWsVdL._AC_UL1500_.jpg')">
+                <img src="https://m.media-amazon.com/images/I/71sY7VWsVdL._AC_UL1500_.jpg" alt="Graphic Print Tee">
+                <h4>Graphic Print Tee</h4>
+                <p>Rs. 849</p>
+                <div class="product-rating">★★★★☆</div>
+            </div>
+
+            <div class="product-card" onclick="openProductModal('Athletic Dry Fit', 'Rs. 999', 'https://m.media-amazon.com/images/I/71yV7mx3d3L._AC_UL1500_.jpg')">
+                <img src="https://m.media-amazon.com/images/I/71yV7mx3d3L._AC_UL1500_.jpg" alt="Athletic Dry Fit">
+                <h4>Athletic Dry Fit</h4>
+                <p>Rs. 999</p>
+                <div class="product-rating">★★★★★</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('productModal')">&times;</span>
+            <img id="productModalImage" src="" alt="Product Image" style="width: 100%; border-radius: 1rem; margin-bottom: 1rem;">
+            <h3 id="productModalTitle"></h3>
+            <p id="productModalPrice"></p>
+        </div>
+    </div>
+
+    <script>
+        let cartItems = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Size selection
+            document.querySelectorAll('.size-btn').forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+                if(index === 0) btn.click();
+            });
+
+            // Quantity validation
+            const quantityInput = document.querySelector('.quantity-input');
+            quantityInput.addEventListener('input', () => {
+                quantityInput.value = Math.max(1, parseInt(quantityInput.value) || 1);
+            });
+
+            // Drag scroll initialization
+            initDragScroll();
+        });
+
+        function adjustQuantity(change) {
+            const input = document.querySelector('.quantity-input');
+            input.value = Math.max(1, parseInt(input.value) + change);
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function openProductModal(title, price, imageUrl) {
+            document.getElementById('productModalImage').src = imageUrl;
+            document.getElementById('productModalTitle').textContent = title;
+            document.getElementById('productModalPrice').textContent = price;
+            openModal('productModal');
+        }
+
+        function addToCart() {
+            const product = {
+                name: 'Banana Bliss T-Shirt',
+                size: document.querySelector('.size-btn.active').textContent,
+                quantity: parseInt(document.querySelector('.quantity-input').value),
+                price: 1178.82
+            };
+            cartItems.push(product);
+            showToast(`${product.quantity} × ${product.name} added to cart!`);
+        }
+
+        function buyNow() {
+            addToCart();
+            window.location.href = '/checkout';
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function initDragScroll() {
+            const slider = document.querySelector('.scrollable-products');
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('mouseleave', () => isDown = false);
+            slider.addEventListener('mouseup', () => isDown = false);
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                slider.scrollLeft = scrollLeft - (x - startX) * 2;
+            });
+
+            // Touch support
+            let touchStartX = 0;
+            let touchScrollLeft = 0;
+
+            slider.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchScrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const xDiff = e.touches[0].clientX - touchStartX;
+                slider.scrollLeft = touchScrollLeft - xDiff * 2;
+            });
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(e) {
+            if (e.target.className === 'modal') {
+                e.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
+</body>
+</html>
